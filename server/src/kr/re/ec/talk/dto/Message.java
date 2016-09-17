@@ -26,6 +26,16 @@ public class Message {
 	 */
 	private int state;
 	
+	/**
+	 * @param id
+	 * @param senderId
+	 * @param senderNickname
+	 * @param senderToken
+	 * @param sendDatetime
+	 * @param receiverToken
+	 * @param contents
+	 * @param state
+	 */
 	public Message(long id, int senderId, String senderNickname,
 			String senderToken, String sendDatetime, String receiverToken, String contents, int state) {
 		this.id = id;

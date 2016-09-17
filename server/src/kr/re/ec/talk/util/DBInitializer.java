@@ -49,66 +49,22 @@ public class DBInitializer {
 			messageDao.dropTable();	
 			messageDao.createTableIfNotExists();
 			
-			messageDao.insertNewMessage(new Message(
-					Message.ID_NOT_SET, 
-					1, 
-					"서주리[22]", 
-					"5de46a86-a867-4d89-8400-639f6016acb2",
-					"2016-01-01T00:00:01",
-					"f99b7262-046a-42e3-994b-a96a6f278a8a", //12 김태희
-					"첫 메시지!! 테스트3",
-					Message.STATE_NOT_SENT_TO_CLIENT
-					));
-			messageDao.insertNewMessage(new Message(
-					Message.ID_NOT_SET, 
-					1, 
-					"서주리[22]", 
-					"5de46a86-a867-4d89-8400-639f6016acb2",
-					"2016-01-01T00:03:01",
-					"6ac62be8-f81d-40e7-b730-3ea627a05b8b", //13 김희태
-					"첫 메시지!! 테스트3",
-					Message.STATE_SENT_TO_CLIENT
-					));
-			messageDao.insertNewMessage(new Message(
-					Message.ID_NOT_SET, 
-					1, 
-					"서주리[22]", 
-					"5de46a86-a867-4d89-8400-639f6016acb2",
-					"2016-01-01T00:02:01",
-					"f99b7262-046a-42e3-994b-a96a6f278a8a", //12 김태희
-					"첫 메시지!! 테스트3",
-					Message.STATE_NOT_SENT_TO_CLIENT
-					));
-			messageDao.insertNewMessage(new Message(
-					Message.ID_NOT_SET, 
-					1, 
-					"서주리[22]", 
-					"5de46a86-a867-4d89-8400-639f6016acb2",
-					"2016-01-01T00:00:01",
-					"56e7601e-4f24-447f-b239-caa5cf799467", //4 주현석
-					"첫 메시지!! 테스트3",
-					Message.STATE_SENT_TO_CLIENT
-					));
-			messageDao.insertNewMessage(new Message(
-					Message.ID_NOT_SET, 
-					12, 
-					"김태희[21]", 
-					"f99b7262-046a-42e3-994b-a96a6f278a8a",
-					"2016-01-01T00:40:02",
-					"b4199a46-7467-42de-b0fa-58a4f19cacdd", //2 김지홍
-					"난 김희태가 아니야!!!!!!!!!!!!!!!!!!!!",
-					Message.STATE_NOT_SENT_TO_CLIENT
-					));
-			messageDao.insertNewMessage(new Message(
-					Message.ID_NOT_SET, 
-					12, 
-					"김태희[21]", 
-					"f99b7262-046a-42e3-994b-a96a6f278a8a",
-					"2016-01-01T00:40:01",
-					"5de46a86-a867-4d89-8400-639f6016acb2", //1 서주리
-					"난 김희태가 아니야!!!!!!!!!!!!!!!!!!!!",
-					Message.STATE_NOT_SENT_TO_CLIENT
-					));
+			for(User user: userDao.findAllUsers()) {
+				//insert initial value
+				// id: 13, senderId : 12, senderNickname : 김태희[21], senderToken : f99b7262-046a-42e3-994b-a96a6f278a8a,
+				// sendDatetime : 1988-07-21 05:02:23.0, receiverToken : 6ac62be8-f81d-40e7-b730-3ea627a05b8b, 
+				// contents : 이씨톡에 오신 것을 환영하여요!, state : 1
+				messageDao.insertNewMessage(new Message(
+						Message.ID_NOT_SET,
+						12,
+						"김태희[21]",
+						"f99b7262-046a-42e3-994b-a96a6f278a8a",
+						"1988-07-21T05:55:55",
+						user.getToken(),
+						"이씨톡에 온 것을 환영하여요!",
+						Message.STATE_NOT_SENT_TO_CLIENT
+						));
+			}
 
 			return true;
 		} catch (SQLException e) {

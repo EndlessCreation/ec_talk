@@ -72,8 +72,8 @@ public class SendMessageServlet extends HttpServlet {
 						LogUtil.v(userWhoSent.toString());
 						//insert initial value except for SenderToken, sendDatetime and Contents 
 						toSendMessage.setId(Message.ID_NOT_SET);
-						toSendMessage.setSenderId(user.getId());
-						toSendMessage.setSenderNickname(user.getNickname());
+						toSendMessage.setSenderId(userWhoSent.getId());
+						toSendMessage.setSenderNickname(userWhoSent.getNickname());
 						toSendMessage.setReceiverToken(user.getToken());
 						toSendMessage.setState(Message.STATE_NOT_SENT_TO_CLIENT);
 						
