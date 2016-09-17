@@ -14,7 +14,7 @@ import kr.re.ec.talk.dto.User;
  */
 public class DBInitializer {
 	/**
-	 * Database initialize. Only available on debug mode.
+	 * Database initialize and insert dummy data. Only available on debug mode.
 	 * @return true is init success.
 	 */
 	public static boolean dbInit() {
@@ -22,12 +22,11 @@ public class DBInitializer {
 		if(!Constants.DEBUG) return false;
 		
 		//initialize
-		//NOTE: do not use
 		UserDao userDao = UserDao.getInstance();
 		MessageDao messageDao = MessageDao.getInstance();
 
 		try {
-			userDao.dropTable();	
+			userDao.dropTable();
 			userDao.createTableIfNotExists();
 
 			/**

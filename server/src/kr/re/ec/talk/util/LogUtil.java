@@ -5,9 +5,9 @@ import kr.re.ec.talk.common.Constants;
 /**
  * Class LogUtil.
  * print to log using Class and Method name.
- * @author Kim Taehee (slhyvaa@nate.com)
+ * @author Taehee Kim (slhyvaa@nate.com)
  * @since 130812
- * @modified 140514 (for java)
+ * @modified 160917 (for ec_talk)
  */
 public class LogUtil {
 	private static final String TAG = "User Logged";

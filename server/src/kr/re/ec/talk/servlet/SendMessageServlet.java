@@ -12,28 +12,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.re.ec.talk.common.Constants;
+import kr.re.ec.talk.dao.MessageDao;
 import kr.re.ec.talk.dao.UserDao;
 import kr.re.ec.talk.dto.AuthRequest;
 import kr.re.ec.talk.dto.AuthResponse;
+import kr.re.ec.talk.dto.SendMessageRequest;
+import kr.re.ec.talk.dto.SendMessageResponse;
 import kr.re.ec.talk.util.LogUtil;
 
 import com.google.gson.Gson;
 
 /**
- * Servlet for authentication request.
+ * Servlet for send message.
  * @author Taehee Kim 2016-09-17
  */
-public class AuthServlet extends HttpServlet {
+public class SendMessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * code type shoule be belows.
 	 */
-	private static final String CODE_TYPE_AUTH = "CODE_TYPE_AUTH";
+	private static final String CODE_TYPE_SEND_MESSAGE = "CODE_TYPE_SEND_MESSAGE";
 	
 	private UserDao userDao;
+	private MessageDao messageDao;
 
-	public AuthServlet() {
+	public SendMessageServlet() {
 		userDao = UserDao.getInstance();
+		messageDao = MessageDao.getInstance();
 		LogUtil.v("dao.getConnection done.");
 	}
 
@@ -45,32 +50,34 @@ public class AuthServlet extends HttpServlet {
 
 		//convert json request to pojo
 		Gson gson = new Gson();
-		AuthRequest authRequest = gson.fromJson(br, AuthRequest.class);
-		LogUtil.v(authRequest.toString());
+		SendMessageRequest sendMessageRequest = gson.fromJson(br, SendMessageRequest.class);
+		LogUtil.v(sendMessageRequest.toString());
 
-		//check validation. code and token.
-		AuthResponse authResponse = new AuthResponse();
+		//check auth. code and token.
+		SendMessageResponse sendMessageResponse = new SendMessageResponse();
 		try {
-			if(CODE_TYPE_AUTH.equals(authRequest.getCode()) 
-					&& userDao.isValidUserByToken(authRequest.getToken())) {
+			if(CODE_TYPE_SEND_MESSAGE.equals(sendMessageRequest.getCode()) 
+					&& userDao.isValidUserByToken(sendMessageRequest.getToken())) {
 				
 				LogUtil.v("valid request code and token.");
-				authResponse.setSuccess(true);
-				authResponse.setMessage("authentication complete.");
+				
+				messageDao.insertNewMessage(sendMessageRequest.getMessage());
+				sendMessageResponse.setSuccess(true);
+				sendMessageResponse.setMessage("send message complete");
 			} else {
-				throw new Exception("invalid request code or token.");
+				throw new Exception("invalid request code or token or format.");
 			}
 		} catch (Exception e) {
 			LogUtil.e(e.getMessage());
-			authResponse.setSuccess(false);
-			authResponse.setMessage("authentication failed.");
+			sendMessageResponse.setSuccess(false);
+			sendMessageResponse.setMessage("send message request failed.");
 		}
 		
 		//set content type
 		response.setContentType("application/json"); 
 		
 		//output
-		response.getWriter().print(gson.toJson(authResponse));
+		response.getWriter().print(gson.toJson(sendMessageResponse));
 
 	}
 }
