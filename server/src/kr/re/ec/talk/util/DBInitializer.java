@@ -7,6 +7,10 @@ import kr.re.ec.talk.dao.UserDao;
 import kr.re.ec.talk.dto.Message;
 import kr.re.ec.talk.dto.User;
 
+/**
+ * DB Initializer for testing.
+ * @author Taehee Kim 2016-09-17
+ */
 public class DBInitializer {
 	public static boolean dbInit() {
 		//initialize
