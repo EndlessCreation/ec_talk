@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <% 
-	DBInitializer.dbInit();
+	//DBInitializer.dbInit();
 	UserDao userDao = UserDao.getInstance(); 
 	MessageDao messageDao = MessageDao.getInstance(); %>
 <html>
@@ -26,9 +26,9 @@
 			deviceId: <%= e.getDeviceId() %>
 			<br/>
 		<% } %>
-		
 		아항 끝 !!<br/>
 		<br/>
+		
 		<h1>모든 메시지</h1>
 		<h3>싸그리 불러볼까 ^^?</h3>
 		<% ArrayList<Message> msgs = messageDao.findTop100Messages(); %>
@@ -43,9 +43,9 @@
 			state : <%= e.getState() %>
 			<br/>
 		<% } %>
-		
 		아항 끝 !!<br/>
 		<br/>
+		
 		<h1>보내야 하는 메시지  "f99b7262-046a-42e3-994b-a96a6f278a8a" 김태희가 받아야 하는! (state 1 is not sent)</h1>
 		<h3>싸그리 불러볼까 ^^?</h3>
 		<% ArrayList<Message> msgsToSend = messageDao.findUnsentMessagesByReceiverToken(
@@ -61,17 +61,22 @@
 			state : <%= e.getState() %>
 			<br/>
 		<% } %>
-		
 		아항 끝 !!<br/>
-		
-		<% Message unsentFirstMessage = messageDao.findUnsentMessagesByReceiverToken("f99b7262-046a-42e3-994b-a96a6f278a8a").get(0);
-		messageDao.updateStateById(unsentFirstMessage.getId(), Message.STATE_SENT_TO_CLIENT); %>
-		
-		<h1>보내야 하는 메시지  update 후 . 김태희가 받아야 하는! (state 1 is not sent)</h1>
+		<br/>
+
+		<h1>보내야 하는 메시지 update 후 . 김태희가 받아야 하는! (state 1 is not sent)</h1>
 		<h3>싸그리 불러볼까 ^^?</h3>
-		<% ArrayList<Message> msgsToSend2 = messageDao.findUnsentMessagesByReceiverToken(
-				"f99b7262-046a-42e3-994b-a96a6f278a8a"); %>
-		<% for(Message e: msgsToSend2) { %> 
+		<% ArrayList<Message> unsentMessages = messageDao.findUnsentMessagesByReceiverToken("f99b7262-046a-42e3-994b-a96a6f278a8a");
+		for(Message e: unsentMessages) {
+			messageDao.updateStateById(e.getId(), Message.STATE_SENT_TO_CLIENT);
+		} %>
+		아항 끝 !!<br/>
+		<br/>		
+		
+		<h1>모든 메시지</h1>
+		<h3>싸그리 불러볼까 ^^?</h3>
+		<% msgs = messageDao.findTop100Messages(); %>
+		<% for(Message e: msgs) { %> 
 			id: <%= e.getId() %>, 
 			senderId : <%= e.getSenderId () %>,
 			senderNickname : <%= e.getSenderNickname() %>,
@@ -82,7 +87,9 @@
 			state : <%= e.getState() %>
 			<br/>
 		<% } %>
-		
 		아항 끝 !!<br/>
+		<br/>
+		
+		
 	</body>
 </html>

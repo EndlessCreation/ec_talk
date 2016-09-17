@@ -186,6 +186,48 @@ public class UserDao extends JDBCProvider {
 		return isValid;
 	}
 	
+	/**
+	 * find user by Token
+	 * @throws SQLException
+	 * @return if invalid token, return null. 
+	 */
+	public User findUserByToken(String token) throws SQLException { 
+		User user = null;
+		
+		Connection c = null; 
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			c = getConnection();
+			stmt = c.createStatement();
+			String query = "SELECT " 
+					+ COL_ID + ", "
+					+ COL_TOKEN + ", " 
+					+ COL_NICKNAME + ", " 
+					+ COL_DEVICE_ID
+					+ " FROM " + TABLE_NAME 
+					+ " WHERE " + COL_TOKEN + "='" + token + "'"
+					+ ";"; 
+			LogUtil.v("query: " + query);
+			rs = stmt.executeQuery(query);
+			if(rs.next()) { //can return only 1 user (cuz of unique token)
+				user = new User(
+						rs.getInt(COL_ID),
+						rs.getString(COL_TOKEN),
+						rs.getString(COL_NICKNAME),
+						rs.getString(COL_DEVICE_ID)
+						);
+			}
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if(rs != null) 		try {rs.close();	} catch(Exception e){}
+			if(stmt != null) 	try {stmt.close();	} catch(Exception e){}
+			if(c != null) 		try {c.close();		} catch(Exception e){}
+		}
+
+		return user;
+	}
 
 	//insert
 	/** 

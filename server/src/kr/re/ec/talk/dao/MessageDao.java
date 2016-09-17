@@ -243,7 +243,7 @@ public class MessageDao extends JDBCProvider {
 					+ m.getContents() + "','" 
 					+ m.getState() + "');"; //for boolean
 			LogUtil.v("query: " + query);
-			result=stmt.executeUpdate(query);
+			result = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			throw e;
 		} finally {

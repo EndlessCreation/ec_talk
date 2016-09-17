@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import kr.re.ec.talk.common.Constants;
 import kr.re.ec.talk.dao.MessageDao;
 import kr.re.ec.talk.dao.UserDao;
-import kr.re.ec.talk.dto.AuthRequest;
-import kr.re.ec.talk.dto.AuthResponse;
+import kr.re.ec.talk.dto.Message;
 import kr.re.ec.talk.dto.SendMessageRequest;
 import kr.re.ec.talk.dto.SendMessageResponse;
+import kr.re.ec.talk.dto.User;
 import kr.re.ec.talk.util.LogUtil;
 
 import com.google.gson.Gson;
@@ -61,7 +61,30 @@ public class SendMessageServlet extends HttpServlet {
 				
 				LogUtil.v("valid request code and token.");
 				
-				messageDao.insertNewMessage(sendMessageRequest.getMessage());
+				Message toSendMessage = sendMessageRequest.getMessage();
+				
+				//make copy of messages per all users
+				ArrayList<User> allUsers = userDao.findAllUsers();
+				User userWhoSent = userDao.findUserByToken(toSendMessage.getSenderToken());
+				
+				for(User user: allUsers) {
+					if(!(userWhoSent.getToken().equals(user.getToken()))) {
+						LogUtil.v(userWhoSent.toString());
+						//insert initial value except for SenderToken, sendDatetime and Contents 
+						toSendMessage.setId(Message.ID_NOT_SET);
+						toSendMessage.setSenderId(user.getId());
+						toSendMessage.setSenderNickname(user.getNickname());
+						toSendMessage.setReceiverToken(user.getToken());
+						toSendMessage.setState(Message.STATE_NOT_SENT_TO_CLIENT);
+						
+						if(messageDao.insertNewMessage(toSendMessage) != 1) {
+							throw new Exception("cannot insert copy of messages to db");
+						} //TODO: this should be 1
+					}
+				}
+				
+				
+				
 				sendMessageResponse.setSuccess(true);
 				sendMessageResponse.setMessage("send message complete");
 			} else {
