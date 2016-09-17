@@ -2,6 +2,7 @@ package kr.re.ec.talk.util;
 
 import java.sql.SQLException;
 
+import kr.re.ec.talk.common.Constants;
 import kr.re.ec.talk.dao.MessageDao;
 import kr.re.ec.talk.dao.UserDao;
 import kr.re.ec.talk.dto.Message;
@@ -12,7 +13,14 @@ import kr.re.ec.talk.dto.User;
  * @author Taehee Kim 2016-09-17
  */
 public class DBInitializer {
+	/**
+	 * Database initialize. Only available on debug mode.
+	 * @return true is init success.
+	 */
 	public static boolean dbInit() {
+		
+		if(!Constants.DEBUG) return false;
+		
 		//initialize
 		//NOTE: do not use
 		UserDao userDao = UserDao.getInstance();

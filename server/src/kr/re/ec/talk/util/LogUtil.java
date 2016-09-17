@@ -1,5 +1,7 @@
 package kr.re.ec.talk.util;
 
+import kr.re.ec.talk.common.Constants;
+
 /**
  * Class LogUtil.
  * print to log using Class and Method name.
@@ -8,7 +10,6 @@ package kr.re.ec.talk.util;
  * @modified 140514 (for java)
  */
 public class LogUtil {
-	private static final boolean debug = true;// BuildConfig.DEBUG;
 	private static final String TAG = "User Logged";
 
 	private LogUtil() {} //cannot create instance
@@ -16,7 +17,7 @@ public class LogUtil {
 	/* vervose */
 	public static void v(String log)
 	{
-		if(debug) {
+		if(Constants.DEBUG) {
 			System.out.println(TAG + "(V):" + new Exception().getStackTrace()[1].getClassName() + "::" 
 					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //get class and method name
 		}
@@ -25,7 +26,7 @@ public class LogUtil {
 	/* debug */
 	public static void d(String log)
 	{
-		if(debug) {
+		if(Constants.DEBUG) {
 			System.out.println(TAG + "(D):" + new Exception().getStackTrace()[1].getClassName() + "::" 
 					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //get class and method name
 		}
@@ -34,7 +35,7 @@ public class LogUtil {
 	/* info */
 	public static void i(String log)
 	{
-		if(debug) {
+		if(Constants.DEBUG) {
 			System.out.println(TAG + "(I):" + new Exception().getStackTrace()[1].getClassName() + "::" 
 					+ new Exception().getStackTrace()[1].getMethodName() + "():" + log); //get class and method name
 		}
