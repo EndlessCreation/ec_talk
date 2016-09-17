@@ -23,4 +23,14 @@
 		<servlet-name>SendMessageServlet</servlet-name>
 		<url-pattern>/SendMessageServlet</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<display-name>RequestNewMessagesServlet</display-name>
+		<servlet-name>RequestNewMessagesServlet</servlet-name>
+		<servlet-class>kr.re.ec.talk.servlet.RequestNewMessagesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RequestNewMessagesServlet</servlet-name>
+		<url-pattern>/RequestNewMessagesServlet</url-pattern>
+	</servlet-mapping>
 </web-app>

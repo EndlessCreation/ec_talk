@@ -93,7 +93,7 @@ public class SendMessageServlet extends HttpServlet {
 		} catch (Exception e) {
 			LogUtil.e(e.getMessage());
 			sendMessageResponse.setSuccess(false);
-			sendMessageResponse.setMessage("send message request failed.");
+			sendMessageResponse.setMessage("send message failed.");
 		}
 		
 		//set content type
