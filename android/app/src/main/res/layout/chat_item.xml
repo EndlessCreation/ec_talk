@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/chat_item_layout_others"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3.5dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="3dp"
+        android:gravity="left"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/chat_item_layout_others_photo_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/chat_item_layout_others_photo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/no_profile_image_m" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/chat_item_layout_others_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="others_name" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <RelativeLayout
+                    android:id="@+id/chat_item_layout_others_bubblelayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/talk_balloon_others"
+                    android:padding="0dp"
+                    android:windowIsTranslucent="false" >
+
+                    <RelativeLayout
+                        android:id="@+id/chat_item_layout_others_bubble_contentlayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="0dp" >
+
+                        <!-- TODO: need to logic about maxwidth  -->
+                        <TextView
+                            android:id="@+id/chat_item_layout_others_bubble_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="14dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginTop="8dp"
+                            android:maxWidth="210dp"
+                            android:autoLink="all"
+                            android:text="what are aydddddddddddddddddddddddng a?"
+                            android:textColorLink="#c10000"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/chat_item_layout_others_bubble_infolayout"
+                    android:layout_width="84dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@+id/chat_item_layout_others_bubblelayout"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_toRightOf="@+id/chat_item_layout_others_bubblelayout"
+                    android:background="@drawable/chat_time_seecount_area"
+                    android:minWidth="84dp" >
+
+                    <TextView
+                        android:id="@+id/chat_item_layout_others_bubble_timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:text="11:00 오후"
+                        android:textColor="#000000"
+                        android:textSize="7sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chat_item_layout_mine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3.5dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="3dp"
+        android:gravity="right"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/chat_item_layout_mine_bubblelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:id="@+id/chat_item_layout_mine_bubble_contentlayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/talk_balloon_mine"
+                android:padding="0dp">
+
+                <!-- TODO: need to logic about maxwidth  -->
+                <TextView
+                    android:id="@+id/chat_item_layout_mine_bubble_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:autoLink="all"
+                    android:maxWidth="245dp"
+                    android:text="son eul nae mil ddddddddddddddffffff boa yo!"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="#ff000000"
+                    android:textColorLink="#c10000"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/chat_item_layout_mine_bubble_infolayout"
+                android:layout_width="84dp"
+                android:layout_height="20dp"
+                android:layout_alignBottom="@+id/chat_item_layout_mine_bubble_contentlayout"
+                android:layout_marginRight="-10dp"
+                android:layout_marginBottom="4dp"
+                android:layout_toLeftOf="@+id/chat_item_layout_mine_bubble_contentlayout"
+                android:background="@drawable/chat_time_seecount_area" >
+
+                <TextView
+                    android:id="@+id/chat_item_layout_mine_bubble_timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:text="11:01 오후"
+                    android:textColor="#000000"
+                    android:textSize="7sp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
