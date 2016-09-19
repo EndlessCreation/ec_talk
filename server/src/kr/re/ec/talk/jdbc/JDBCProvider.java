@@ -33,8 +33,10 @@ public class JDBCProvider {
 	private boolean open() {
 		//LogUtil.v("open called"); 
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/" + DATABASE_NAME
-					+ "?useUnicode=true&characterEncoding=utf-8", DATABASE_USER_ID, DATABASE_USER_PW);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/" 
+					+ DATABASE_NAME
+					+ "?useUnicode=true&characterEncoding=utf-8",
+					DATABASE_USER_ID, DATABASE_USER_PW);
 		} catch(SQLException e) { 
 			LogUtil.e("Cannot getConnection!");
 			e.printStackTrace();

@@ -79,7 +79,7 @@ public class SendMessageServlet extends HttpServlet {
 						
 						if(messageDao.insertNewMessage(toSendMessage) != 1) {
 							throw new Exception("cannot insert copy of messages to db");
-						} //TODO: this should be 1
+						} //TODO: this should be 1. make exception
 					}
 				}
 				
