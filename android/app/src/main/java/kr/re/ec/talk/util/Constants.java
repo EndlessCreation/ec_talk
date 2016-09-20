@@ -3,16 +3,22 @@ package kr.re.ec.talk.util;
 /**
  * Created by slhyv on 9/19/2016.
  */
-public class Constants {
+public final class Constants {
     public static final boolean IS_DEBUG = true;
 
     //TODO: temporary value
-    public static final String MY_TOKEN = "f99b7262-046a-42e3-994b-a96a6f278a8a";
+    public static final String MY_TOKEN = "f99b7262-046a-42e3-994b-a96a6f278a8a"; //Taehee Kim
+    //public static final String MY_TOKEN = "873636ce-cedb-4c4a-8695-470a000bd5ef"; //Gang Choi
+
 
     public abstract class Network {
         public static final String HOST_URL = "http://117.17.198.41:8080/ec_talk";
+
         public static final String SEND_MESSAGE_URL = HOST_URL + "/SendMessageServlet";
         public static final String CODE_TYPE_SEND_MESSAGE = "CODE_TYPE_SEND_MESSAGE";
+
+        public static final String REQUEST_NEW_MESSAGES_URL = HOST_URL + "/RequestNewMessagesServlet";
+        public static final String CODE_TYPE_REQUEST_NEW_MESSAGES = "CODE_TYPE_REQUEST_NEW_MESSAGES";
     }
 
     public abstract class Action {

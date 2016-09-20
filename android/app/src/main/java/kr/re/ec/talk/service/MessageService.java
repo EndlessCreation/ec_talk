@@ -13,8 +13,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import kr.re.ec.talk.ProviderController;
 import kr.re.ec.talk.dto.Message;
+import kr.re.ec.talk.dto.RequestNewMessagesRequest;
+import kr.re.ec.talk.dto.RequestNewMessagesResponse;
 import kr.re.ec.talk.dto.SendMessageRequest;
 import kr.re.ec.talk.dto.SendMessageResponse;
 import kr.re.ec.talk.util.Constants;
@@ -59,6 +63,9 @@ public class MessageService extends Service {
 //        demoIntent.putExtra(Constants.Action.ACTION_TO_CLIENT_SEND_CHATMSG, initMsg);
 //        sendBroadcast(demoIntent);
 //        LogUtil.d(TAG, "dummy msg sent: " + initMsg);
+
+        //initial msgs
+        requestNewMessages();
 
         return START_STICKY;
     }
@@ -108,6 +115,45 @@ public class MessageService extends Service {
             @Override
             public void onErrorResponse(VolleyError error) {
                 LogUtil.d(TAG, "error! = " + error.toString());
+                //TODO: make err toast
+            }
+        });
+
+        RequestController.getInstance(this.getApplicationContext()).addToRequestQueue(request, TAG);
+    }
+
+    private void requestNewMessages() {
+        //make param
+        RequestNewMessagesRequest requestParam = new RequestNewMessagesRequest();
+        requestParam.setCode(Constants.Network.CODE_TYPE_REQUEST_NEW_MESSAGES);
+        requestParam.setToken(Constants.MY_TOKEN);
+        LogUtil.v(TAG, "requestParam: " + requestParam);
+
+        GsonRequest<RequestNewMessagesResponse> request = new GsonRequest<>(
+                Request.Method.POST, Constants.Network.REQUEST_NEW_MESSAGES_URL,
+                new Gson().toJson(requestParam),
+                RequestNewMessagesResponse.class, null,
+                new Response.Listener<RequestNewMessagesResponse>() {
+                    @Override
+                    public void onResponse(RequestNewMessagesResponse response) {
+                        LogUtil.v(TAG, "response: " + response.toString());
+
+                        if(response.getSuccess()) { //on Success //TODO: throw new Exception ?
+                            List<Message> messages = response.getMessages();
+
+                            for(Message m: messages) {
+                                ProviderController.MessageController.insertNewChatMsg(mContext, m);
+                            }
+
+                            Intent refreshIntent = new Intent(Constants.Action.ACTION_TO_CHATTING_REFRESH_VIEW_REQ);
+                            sendBroadcast(refreshIntent);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                LogUtil.d(TAG, "error! = " + error.toString());
+                //TODO: make err toast
             }
         });
 
@@ -119,36 +165,43 @@ public class MessageService extends Service {
         public void onReceive(Context context, Intent intent) {
             LogUtil.v(TAG, "onReceive invoked!");
 
-            if(intent.getAction() != null) {
-                switch (intent.getAction()) {
-                    case Intent.ACTION_BOOT_COMPLETED:
-                    case Intent.ACTION_USER_PRESENT: //TODO: is it duplicated with ServiceWaker? or is it work properly without registerreceiver?
-                        LogUtil.d(TAG, "wake up process. start service.");
-                        context.startService(new Intent(context, MessageService.class));
-                        break;
+            if(intent.getAction() == null) {
+                LogUtil.v(TAG, "intent.getAction() is null");
+                return;
+            }
 
-                    case Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ:
+            switch (intent.getAction()) {
+                case Intent.ACTION_BOOT_COMPLETED:
+                case Intent.ACTION_USER_PRESENT: //TODO: is it duplicated with ServiceWaker? or is it work properly without registerreceiver?
+                    LogUtil.d(TAG, "wake up process. start service.");
+                    context.startService(new Intent(context, MessageService.class));
+                    break;
 
-                        LogUtil.v(TAG, "received ACTION_TO_SERVICE_SEND_MESSAGE_REQ");
+                case Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ:
 
-                        String messageString = intent.getStringExtra(Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ);
-                        LogUtil.d(TAG, "received msg from client: " + messageString);
+                    LogUtil.v(TAG, "received ACTION_TO_SERVICE_SEND_MESSAGE_REQ");
 
-                        //insert new message
-                        Message m = new Message(
-                                Message.ID_NOT_SET,
-                                12, //TODO: my id..?
-                                Constants.MY_TOKEN,
-                                "김태희[21]", //TODO: make my nickname...?
-                                "2016-09-20T13:57:00", //TODO: make this real now
-                                messageString,
-                                Message.STATE_NOT_SENT_TO_SERVER);
-                        ProviderController.MessageController.insertNewChatMsg(mContext, m);
+                    String messageString = intent.getStringExtra(Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ);
+                    LogUtil.d(TAG, "received msg from client: " + messageString);
 
-                        requestSendMessage(m);
-                        //TODO: update message state after send request
-                        break;
-                }
+                    //insert new message
+                    Message m = new Message(
+                            Message.ID_NOT_SET,
+                            12, //TODO: my id..?
+                            Constants.MY_TOKEN,
+                            "김태희[21]", //TODO: make my nickname...?
+                            "2016-09-20T13:57:00", //TODO: make this real now
+                            messageString,
+                            Message.STATE_NOT_SENT_TO_SERVER);
+                    ProviderController.MessageController.insertNewChatMsg(mContext, m);
+
+                    requestSendMessage(m);
+
+                    //TODO: temporary call. MUST remove this.
+                    requestNewMessages();
+
+                    //TODO: update message state after send request
+                    break;
             }
         }
     }

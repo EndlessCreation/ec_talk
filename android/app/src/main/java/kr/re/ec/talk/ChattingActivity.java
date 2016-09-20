@@ -102,7 +102,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
     private void initDbWithDummyData() {
         //db init
-        ProviderController.MessageController.deleteAllMessages(this);
+        //ProviderController.MessageController.deleteAllMessages(this);
 
         Message m = new Message(
                 Message.ID_NOT_SET,
@@ -226,49 +226,6 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    /**
-     * The listener interface for receiving myScroll events. The class that is
-     * interested in processing a myScroll event implements this interface, and
-     * the object created with that class is registered with a component using
-     * the component's <code>addMyScrollListener<code> method. When
-     * the myScroll event occurs, that object's appropriate
-     * method is invoked.
-     */
-    class MyScrollListener implements AbsListView.OnScrollListener {
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see
-         * android.widget.AbsListView.OnScrollListener#onScroll(android.widget
-         * .AbsListView, int, int, int)
-         */
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem,
-                             int visibleItemCount, int totalItemCount) {
-            //  Auto-generated method stub
-//			mLastItemPos = firstVisibleItem + visibleItemCount;
-//
-//			if (totalItemCount == mLastItemPos) {
-//				isSelectionExecute = true;
-//			} else {
-//				isSelectionExecute = false;
-//			}
-        }
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see
-         * android.widget.AbsListView.OnScrollListener#onScrollStateChanged(
-         * android.widget.AbsListView, int)
-         */
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-            //  Auto-generated method stub
-        }
-
-    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -279,11 +236,9 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
         mChatCursorAdapter = new ChatCursorAdapter(mContext, mMainCursor);
         mLvChat.setAdapter(mChatCursorAdapter);
-        mLvChat.setOnScrollListener(new MyScrollListener());
+        //mLvChat.setOnScrollListener(new MyScrollListener());
 
         //TODO: restore listview position
-
-
 
     }
 
@@ -313,7 +268,6 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
     /**
      * MessageReceiver extends BroadcastReceiver
      * Created by slhyv on 9/19/2016.
-     *
      */
     class MessageReceiver extends BroadcastReceiver {
         @Override
@@ -330,7 +284,6 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
                         //notifyDataSetChanged() make scroll down automatically with android:transcriptMode="alwaysScroll"
                         mChatCursorAdapter.notifyDataSetChanged();
-                        //TODO: refresh chatroom
                         break;
                 }
             }
