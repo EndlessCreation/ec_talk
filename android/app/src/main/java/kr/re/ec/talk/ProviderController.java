@@ -34,7 +34,6 @@ public final class ProviderController {
     private ProviderController() {} //cannot create instance
 
     public static class MessageController {
-        //################start region chatmsg
         private MessageController() {}  //cannot create instance
         /**
          * Delete all Message from DB.
@@ -115,7 +114,6 @@ public final class ProviderController {
             c.close();
             return resultMax;
         }
-        //#################end region MessageController
     }
 
     //TODO: is it needed? check it

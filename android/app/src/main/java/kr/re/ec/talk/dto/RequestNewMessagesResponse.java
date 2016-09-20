@@ -19,10 +19,10 @@ public class RequestNewMessagesResponse extends ResponseBase {
 
     @Override
     public String toString() {
-        String str = "RequestNewMessagesResponse [messages=";
-        for(Message e: messages) {
-            str += e.toString() + ", ";
-        }
+        String str = "RequestNewMessagesResponse [messages.size()=" + messages.size();
+//        for(Message e: messages) { //TODO: NPE about concurrency
+//            str += e.toString() + ", ";
+//        }
         return str + "]";
     }
 }

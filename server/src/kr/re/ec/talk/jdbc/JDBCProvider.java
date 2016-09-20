@@ -12,6 +12,7 @@ import kr.re.ec.talk.util.LogUtil;
  * @since 140504
  */
 public class JDBCProvider {
+	//TODO: MUST REMOVE REAL ACCOUNT
 	private static final String DATABASE_USER_ID = "root";
 	private static final String DATABASE_USER_PW = "root";
 	private static final String DATABASE_NAME = "ec_talk";

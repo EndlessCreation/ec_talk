@@ -13,6 +13,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import kr.re.ec.talk.ProviderController;
@@ -57,14 +60,7 @@ public class MessageService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.i(TAG, "\n========MessageService onStartCommand()!==========");
 
-        //TODO: below is dummyscript
-//        Intent demoIntent = new Intent(Constants.Action.ACTION_TO_CLIENT_SEND_CHATMSG);
-//        String initMsg = "Hello!";
-//        demoIntent.putExtra(Constants.Action.ACTION_TO_CLIENT_SEND_CHATMSG, initMsg);
-//        sendBroadcast(demoIntent);
-//        LogUtil.d(TAG, "dummy msg sent: " + initMsg);
-
-        //initial msgs
+        //initial msgs. TODO: GCM can replace this?
         requestNewMessages();
 
         return START_STICKY;
@@ -178,11 +174,14 @@ public class MessageService extends Service {
                     break;
 
                 case Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ:
-
-                    LogUtil.v(TAG, "received ACTION_TO_SERVICE_SEND_MESSAGE_REQ");
-
                     String messageString = intent.getStringExtra(Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ);
-                    LogUtil.d(TAG, "received msg from client: " + messageString);
+                    LogUtil.v(TAG, "received ACTION_TO_SERVICE_SEND_MESSAGE_REQ. received msg from client: " + messageString);
+
+                    //get now datetime //TODO: refactor
+                    Calendar now = Calendar.getInstance();
+                    SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.SSS");
+                    String formattedNowStr = datetimeFormat.format(now.getTime());
+                    LogUtil.d(TAG, "now: " + formattedNowStr);
 
                     //insert new message
                     Message m = new Message(
@@ -190,7 +189,7 @@ public class MessageService extends Service {
                             12, //TODO: my id..?
                             Constants.MY_TOKEN,
                             "김태희[21]", //TODO: make my nickname...?
-                            "2016-09-20T13:57:00", //TODO: make this real now
+                            formattedNowStr,
                             messageString,
                             Message.STATE_NOT_SENT_TO_SERVER);
                     ProviderController.MessageController.insertNewChatMsg(mContext, m);
