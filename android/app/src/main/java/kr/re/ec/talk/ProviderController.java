@@ -115,17 +115,4 @@ public final class ProviderController {
             return resultMax;
         }
     }
-
-    //TODO: is it needed? check it
-    @SuppressLint("SimpleDateFormat")
-    private static String convertDateToString(Date date, String dateFormat) {
-        if(date != null) {
-            String str = new SimpleDateFormat(dateFormat).format(date);
-            //LogUtil.v("converted string '" + date.toString() + "' to '" + str +"'");
-            return str;
-        } else {
-            return null;
-        }
-    }
-
 }

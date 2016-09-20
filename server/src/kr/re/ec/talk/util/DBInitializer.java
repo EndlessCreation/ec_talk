@@ -59,7 +59,7 @@ public class DBInitializer {
 						12,
 						"김태희[21]",
 						"f99b7262-046a-42e3-994b-a96a6f278a8a",
-						"1988-07-21T05:55:55",
+						"1988-07-21 05:55:55." + (100 + user.getId()), //make order
 						user.getToken(),
 						"이씨톡에 온 것을 환영하여요!",
 						Message.STATE_NOT_SENT_TO_CLIENT

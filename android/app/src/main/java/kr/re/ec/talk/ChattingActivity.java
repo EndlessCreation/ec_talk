@@ -73,7 +73,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
         registerReceiverWithActions();
         startMessageService();
-        initDbWithDummyData();
+        //initDbWithDummyData();
     }
     private void registerReceiverWithActions() {
         //register receiver with actions
@@ -101,7 +101,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
     private void initDbWithDummyData() {
         //db init
-        //ProviderController.MessageController.deleteAllMessages(this);
+        ProviderController.MessageController.deleteAllMessages(this);
 
         Message m = new Message(
                 Message.ID_NOT_SET,

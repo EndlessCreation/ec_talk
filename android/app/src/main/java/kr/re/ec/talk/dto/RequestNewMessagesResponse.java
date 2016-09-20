@@ -18,9 +18,15 @@ public class RequestNewMessagesResponse extends ResponseBase {
     }
 
     @Override
+    //TODO: fix NPE about concurrency
     public String toString() {
-        String str = "RequestNewMessagesResponse [messages.size()=" + messages.size();
-//        for(Message e: messages) { //TODO: NPE about concurrency
+        String str = "RequestNewMessagesResponse [messages.size()=";
+        if(messages != null) {
+            str += messages.size();
+        } else {
+            str += "null";
+        }
+//        for(Message e: messages) {
 //            str += e.toString() + ", ";
 //        }
         return str + "]";

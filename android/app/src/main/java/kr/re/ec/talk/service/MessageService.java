@@ -179,7 +179,7 @@ public class MessageService extends Service {
 
                     //get now datetime //TODO: refactor
                     Calendar now = Calendar.getInstance();
-                    SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd\'T\'HH:mm:ss.SSS");
+                    SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                     String formattedNowStr = datetimeFormat.format(now.getTime());
                     LogUtil.d(TAG, "now: " + formattedNowStr);
 

@@ -7,8 +7,8 @@ public final class Constants {
     public static final boolean IS_DEBUG = true;
 
     //TODO: temporary value
-    //public static final String MY_TOKEN = "f99b7262-046a-42e3-994b-a96a6f278a8a"; //Taehee Kim
-    public static final String MY_TOKEN = "873636ce-cedb-4c4a-8695-470a000bd5ef"; //Gang Choi
+    public static final String MY_TOKEN = "f99b7262-046a-42e3-994b-a96a6f278a8a"; //Taehee Kim
+    //public static final String MY_TOKEN = "873636ce-cedb-4c4a-8695-470a000bd5ef"; //Gang Choi
 
 
     public abstract class Network {
