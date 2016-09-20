@@ -2,8 +2,10 @@ package kr.re.ec.talk;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +22,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import kr.re.ec.talk.service.MessageService;
+
 /**
- * Created by slhyv on 9/19/2016.
+ * Created by slhyv on 9/19/2016. *
+ * TODO: show my message datetime I sent
+ * TODO: make service
+ * TODO: server communication
+ * TODO: make my token input activity
+ * TODO: make gcm listener
+ * TODO: refactor code
+ * TODO: fix bugs
  */
 public class ChattingActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = ChattingActivity.class.getSimpleName();
@@ -32,19 +43,12 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
     /** The m layout others. */
     private LinearLayout mLayoutOthers;
-
     /** The m layout mine. */
     private LinearLayout mLayoutMine;
-
-    /** The m inflater. */
     private LayoutInflater mInflater = null;
-
     private ChatCursorAdapter mChatCursorAdapter = null;
-
     private Context mContext = null;
-
     private Cursor mMainCursor = null;
-
     private MessageReceiver mReceiver = null;
 
     @Override
@@ -65,7 +69,32 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
         mInflater = (LayoutInflater) mContext.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
 
+        registerReceiverWithActions();
+        startMessageService();
         initDbWithDummyData();
+    }
+    private void registerReceiverWithActions() {
+        //register receiver with actions
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.Action.ACTION_TO_CHATTING_SEND_MESSAGE_RES);
+        filter.addAction(Constants.Action.ACTION_TO_CHATTING_REFRESH_VIEW_REQ);
+        filter.addAction(Constants.Action.ACTION_TO_CHATTING_CHECK_TOKEN_RES);
+
+        mReceiver = new MessageReceiver();
+        registerReceiver(mReceiver, filter);
+        LogUtil.v(TAG, "registerReceiver()");
+    }
+
+    private void startMessageService() {
+        //start service
+        Intent intent = new Intent(this, MessageService.class);
+        ComponentName componentName = startService(intent);
+        if(componentName != null) {
+            LogUtil.v(TAG, "result of startService: " + componentName.toShortString());
+        } else {
+            LogUtil.e(TAG, "FATAL ERROR TO START MessageService! EXIT APPLICATION");
+            //TODO: exit app
+        }
     }
 
     private void initDbWithDummyData() {
@@ -172,32 +201,19 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
                     return;
                 }
 
-                //insert new temporary message
-                ProviderController.MessageController.insertNewChatMsg(this,
-                        new Message(
-                                Message.ID_NOT_SET,
-                                -1, //TODO: my id..?
-                                Constants.MY_TOKEN,
-                                "나 바로 나", //TODO: make my nickname...?
-                                "now", //TODO: make this real now
-                                mEtMessage.getText().toString(),
-                                Message.STATE_NOT_SENT_TO_SERVER)
-                );
-
                 //refresh chatting list
                 if( mMainCursor != null) {
                     mMainCursor.requery(); //TODO: it's deprecated.
                 }
                 LogUtil.v(TAG, "maincursor requeryed pos: " + mMainCursor.getPosition());
 
-                //notifyDataSetChanged() make scroll down automatically with android:transcriptMode="alwaysScroll"
-                mChatCursorAdapter.notifyDataSetChanged();
+                //send message string to service
+                Intent intent = new Intent(Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ);
+                intent.putExtra(Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ, mEtMessage.getText().toString());
+                sendBroadcast(intent);
 
                 //make edittext empty
                 mEtMessage.setText("");
-
-                //TODO: send message to server
-
                 break;
 
             default:
@@ -308,7 +324,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
     private Cursor getChatCursor() {
         Cursor c = null;
         c = managedQuery(MessageProvider.CONTENT_URI_MESSAGE, //TODO: need to change it to cursorLoader() cuz it's deprecated.
-                ProviderController.COLS_MESSAGE_ARR, null, null, MessageProvider.ORDER_BY_SEQ_ID_ASC);
+                ProviderController.COLS_MESSAGE_ARR, null, null, MessageProvider.ORDER_BY_DATETIME_ASC);
         LogUtil.i(TAG, "c.getCount(): " + c.getCount());
 
 //		if (c != null && c.getCount() > 0) { // TODO: I DONT KNOW WHY IT EXISTS.
@@ -357,17 +373,18 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
         public void onReceive(Context context, Intent intent) {
             LogUtil.v(TAG, "invoked!");
             if (intent.getAction() != null) {
-                if(intent.getAction().equals(Constants.ACTION_TO_CHATTING_VIEW_REFRESH_REQ)) {
-                    LogUtil.d(TAG, "ACTION_TO_CHATTING_VIEW_REFRESH_REQ received");
+                switch (intent.getAction()) {
+                    case Constants.Action.ACTION_TO_CHATTING_REFRESH_VIEW_REQ:
+                        LogUtil.d(TAG, "ACTION_TO_CHATTING_REFRESH_VIEW_REQ received");
+                        if( mMainCursor != null) {
+                            mMainCursor.requery(); //TODO: it's deprecated.
+                        }
+                        LogUtil.v(TAG, "maincursor requeryed pos: " + mMainCursor.getPosition());
 
-
-                    if( mMainCursor != null) {
-                        mMainCursor.requery(); //TODO: it's deprecated.
-                    }
-                    LogUtil.v(TAG, "maincursor requeryed pos: " + mMainCursor.getPosition());
-
-                    mChatCursorAdapter.notifyDataSetChanged();
-                    //TODO: refresh chatroom
+                        //notifyDataSetChanged() make scroll down automatically with android:transcriptMode="alwaysScroll"
+                        mChatCursorAdapter.notifyDataSetChanged();
+                        //TODO: refresh chatroom
+                        break;
                 }
             }
         }

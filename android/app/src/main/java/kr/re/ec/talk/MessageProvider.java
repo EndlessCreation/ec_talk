@@ -38,7 +38,7 @@ public class MessageProvider extends ContentProvider {
 
     //order criteria
     /** The history order_asc. */
-    public static final String ORDER_BY_SEQ_ID_ASC = COL_SEND_DATETIME + " ASC";
+    public static final String ORDER_BY_DATETIME_ASC = COL_SEND_DATETIME + " ASC";
 
     /** create db string */
     public static final String DATABASE_CREATE_MESSAGE = "CREATE TABLE "
