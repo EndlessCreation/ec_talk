@@ -184,17 +184,19 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
                                 Message.STATE_NOT_SENT_TO_SERVER)
                 );
 
-                //refresh chattingroom
+                //refresh chatting list
                 if( mMainCursor != null) {
                     mMainCursor.requery(); //TODO: it's deprecated.
                 }
                 LogUtil.v(TAG, "maincursor requeryed pos: " + mMainCursor.getPosition());
 
-                mChatCursorAdapter.notifyDataSetChanged(); //TODO: is it work?
+                //notifyDataSetChanged() make scroll down automatically with android:transcriptMode="alwaysScroll"
+                mChatCursorAdapter.notifyDataSetChanged();
 
-                //move cursor
+                //make edittext empty
+                mEtMessage.setText("");
 
-                //send message to push
+                //TODO: send message to server
 
                 break;
 
@@ -212,7 +214,6 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
      * the component's <code>addMyScrollListener<code> method. When
      * the myScroll event occurs, that object's appropriate
      * method is invoked.
-     *
      */
     class MyScrollListener implements AbsListView.OnScrollListener {
 
@@ -260,6 +261,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
         mLvChat.setAdapter(mChatCursorAdapter);
         mLvChat.setOnScrollListener(new MyScrollListener());
 
+        //TODO: restore listview position
 
         //mContext = this;
 
@@ -364,7 +366,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
                     }
                     LogUtil.v(TAG, "maincursor requeryed pos: " + mMainCursor.getPosition());
 
-                    mChatCursorAdapter.notifyDataSetChanged(); //TODO: is it work?
+                    mChatCursorAdapter.notifyDataSetChanged();
                     //TODO: refresh chatroom
                 }
             }
@@ -390,23 +392,6 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
             TextView tvOthersTime = (TextView) view.findViewById(R.id.chat_item_layout_others_bubble_timestamp);
             TextView tvOthersContent = (TextView) view.findViewById(R.id.chat_item_layout_others_bubble_content);
 
-            //			// 파일 송수신 표시위한 layout(수신부)
-            //			final LinearLayout mFileTransLayout_left = (LinearLayout) view
-            //					.findViewById(R.id.chat_item_layout_l_file_trans_layout);
-            //			final ImageView mFileTransImageView_left = (ImageView) view
-            //					.findViewById(R.id.chat_item_layout_l_file_trans_img);
-            //
-            //			SeekBar seekBar_left = (SeekBar) view
-            //					.findViewById(R.id.chat_item_layout_l_file_trans_progress_download);
-
-            // 수락, 취소 layout(수신부)
-            //			final LinearLayout mButtonLayout_left = (LinearLayout) view
-            //					.findViewById(R.id.chat_item_layout_l_button_layout);
-            //			final TextView mAccept_left = (TextView) view
-            //					.findViewById(R.id.chat_item_layout_l_button_left);
-            //			final TextView mCancel_left = (TextView) view
-            //					.findViewById(R.id.chat_item_layout_l_button_right);
-
             // layout right - 본인
             mLayoutMine = (LinearLayout) view.findViewById(R.id.chat_item_layout_mine);
             RelativeLayout layoutMineBubble = (RelativeLayout) view.findViewById(R.id.chat_item_layout_mine_bubblelayout);
@@ -415,125 +400,30 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
             Message m = ProviderController.MessageController.getMessageByCursor(cursor);
 
-            //			// 본인 이름
-            //			String myName = cursor.getString(cursor
-            //					.getColumnIndex(messageProvider.KEY_MY_NAME));
-            //			// 상대방 이름
-            //			String userKey = cursor.getString(cursor
-            //					.getColumnIndex(messageProvider.KEY_USER_KEY));
-
             LogUtil.v(TAG, "pos: " + pos + " / m data: " + m.toString());
 
             if(!(m.getSenderToken().equals(Constants.MY_TOKEN))) {
-                //not my m
+                //not my message
 
-                //mLayoutOthers
-                //			ivOthersPhoto
-                //			layoutOthersBubble
                 tvOthersName.setText(m.getSenderNickname());
                 tvOthersTime.setText(m.getSendDatetime());
                 tvOthersContent.setText(m.getContents());
 
+                mLayoutOthers.setVisibility(View.VISIBLE);
                 mLayoutMine.setVisibility(View.GONE);
             } else {
-                //my m
+                //my message
                 tvMineTime.setText(m.getSendDatetime());
                 tvMineContent.setText(m.getContents());
 
                 mLayoutOthers.setVisibility(View.GONE);
+                mLayoutMine.setVisibility(View.VISIBLE);
             }
-            //show my m
-//			mLayoutMine = (LinearLayout) view.findViewById(R.id.chat_item_layout_mine);
-//			LinearLayout layoutMineBubble = (LinearLayout) view.findViewById(R.id.chat_item_layout_mine_bubblelayout);
-//			TextView tvMineTime = (TextView) view.findViewById(R.id.chat_item_layout_mine_bubble_timestamp);
-//			TextView tvMineContent = (TextView) view.findViewById(R.id.chat_item_layout_mine_bubble_content);
-//			TextView tvMineUnreadCnt = (TextView) view.findViewById(R.id.chat_item_layout_mine_bubble_unreadcnt);
-
-
-//			tvOthersName.setText(m.getSenderId());
-//
-//			tvOthersName.setText(m.getSenderId());
-//			tvOthersName.setText(m.getSenderId());
-//			tvOthersName.setText(m.getSenderId());
-//			tvOthersName.setText(m.getSenderId());
-//			tvOthersName.setText(m.getSenderId());
-
-            // 상대방이 나의 메세지를 읽었는지 여부
-
-            // S: 보낸 메세지, R: 받은 메세지 , L : 퇴장정보, E : 입장정보
-            //			String msg_type = cursor.getString(cursor
-            //					.getColumnIndex(ChatHistoryProvider.KEY_MESSEAGE_TYPE));
-            //
-            //			if (Util.checkProfileUser(mContext, memberKey)) {
-            //				msg_type = "S";
-            //			}
-            // 메세지 송/수신 시간
-            //			String msg_time = cursor.getString(cursor
-            //					.getColumnIndex(ChatHistoryProvider.KEY_MSG_TIME));
-            //
-            //			String lastMsgState = cursor.getString(cursor
-            //					.getColumnIndex(ChatHistoryProvider.KEY_LAST_MSG));
-            //			if (lastMsgState.equals("true")) {
-            //				mLastMsgTime = msg_time;
-            //			}
-
-            //			String date = CalculateDate.changeDateFormatOfCurrentMillis(
-            //					msg_time, mContext);
-
-            // 대화 타입 : text, file
-
-            // 서버가 client 의 메세지를 수신 받았는지 여부 판단.
-
-            // 날짜 layout 표시 여부 결정
-            //			if (pos <= 0) {
-            //				if (date.length() > 0) {
-            //					mDateLayout.setVisibility(View.VISIBLE);
-            //					mDate.setText(date);
-            //				} else {
-            //					mDateLayout.setVisibility(View.GONE);
-            //				}
-            //			} else {
-            //				cursor.moveToPrevious();
-            //				String tempTime = cursor.getString(cursor
-            //						.getColumnIndex(ChatHistoryProvider.KEY_MSG_TIME));
-            //				String prevTime = "";
-            //				if (tempTime.length() > 0) {
-            //					prevTime = CalculateDate.changeDateFormatOfCurrentMillis(
-            //							tempTime, mContext);
-            //				}
-            //				if (date.equalsIgnoreCase(prevTime)) {
-            //					mDateLayout.setVisibility(View.GONE);
-            //				} else {
-            //					mDateLayout.setVisibility(View.VISIBLE);
-            //					mDate.setText(date);
-            //				}
-            //			}
-
-            //				mReSendProgressHashMap.put(listIndex, mResendProgressBar);
-            //				mReSendBtnHashMap.put(listIndex, mRetryBtn_right);
-
-//			if (mDateLayout.getVisibility() == View.GONE
-//					&& mMemberInfoLayout.getVisibility() == View.GONE) {
-//				if (mNameTv_left.getVisibility() == View.VISIBLE
-//						&& mNameTv_left.getText().toString().trim().length() <= 0
-//						&& mDateTv_right.getVisibility() == View.VISIBLE
-//						&& mDateTv_right.getText().toString().trim().length() <= 0) {
-//
-//					String historyID = cursor.getString(cursor
-//							.getColumnIndex(ChatHistoryProvider.KEY_HIS_ID));
-//
-//					ProviderUtil.deleteChatHistoryListByHistoryId(mContext,
-//							historyID);
-//
-//					mMainCursor.requery();
-//				}
-//			}
 
         }
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            View view = (LinearLayout) mInflater.inflate(R.layout.chat_item,
-                    null, false);
+            View view = (LinearLayout) mInflater.inflate(R.layout.chat_item, null, false);
             return view;
         }
     }

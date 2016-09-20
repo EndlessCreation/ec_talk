@@ -70,29 +70,6 @@ public final class ProviderController {
             cr.insert(MessageProvider.CONTENT_URI_MESSAGE, Values);
         }
 
-//        /**
-//         * Insert new temporary chatmsg to send (this method is called on chattingroom)
-//         * @param ctx
-//         * @param msgText
-//         */
-//        public static void insertTempChatMsgToSend(Context ctx, String msgText) {
-//            ContentValues Values = new ContentValues();
-//            ContentResolver cr = ctx.getContentResolver();
-//
-//            //boolean isEncrypt = PrefUtil.getSecurityStatePreference(ctx);
-//            LogUtil.v(TAG, "arg>>" + msgText);
-//
-//            Values.put(MessageProvider.COL_USER_UID, Constants.MY_TOKEN); //TODO: need to change using PrefUtil
-//            //get temp seqNo - local DB max(seq)+1
-//            Values.put(MessageProvider.COL_CT_SEQ_ID, MessageController.getMaxChatMsgSeqNoByRoomId(ctx)+1);
-//            Values.put(MessageProvider.COL_MSG_TEXT, msgText);
-//            //insert now()
-//            Values.put(MessageProvider.COL_TIMESTAMP, convertDateToString(new Date(),Constants.DATE_FORMAT_ON_DB));
-//            Values.put(MessageProvider.COL_STATE, Message.STATE_SENT);
-//
-//            cr.insert(MessageProvider.CONTENT_URI_MESSAGE, Values);
-//        }
-
         /** get data from provider */
         public static Message getMessageByCursor(Cursor c) {
             Message m;
@@ -113,6 +90,7 @@ public final class ProviderController {
 
         /**
          * get max chatmsg sequence number by room id
+         * TODO: is this needed?
          * @param ctx
          * @return
          */
