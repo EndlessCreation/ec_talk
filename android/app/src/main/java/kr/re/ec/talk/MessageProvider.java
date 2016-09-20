@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import kr.re.ec.talk.util.LogUtil;
+
 /**
  * ContentProvider for Chatting Msg Storage
  * Created by slhyv on 9/19/2016.

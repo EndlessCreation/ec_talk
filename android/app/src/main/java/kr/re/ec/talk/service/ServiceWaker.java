@@ -5,8 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
-import kr.re.ec.talk.Constants;
-import kr.re.ec.talk.LogUtil;
+import kr.re.ec.talk.util.Constants;
+import kr.re.ec.talk.util.LogUtil;
 
 /**
  * When reboot, start MessageService
@@ -17,7 +17,7 @@ public class ServiceWaker extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        LogUtil.i(TAG, "onReceive invoked!");
+        LogUtil.i(TAG, "onReceive() invoked!");
 
         if (intent.getAction() != null) {
             if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) { //when reboot

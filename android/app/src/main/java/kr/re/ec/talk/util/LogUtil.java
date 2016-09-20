@@ -1,4 +1,4 @@
-package kr.re.ec.talk;
+package kr.re.ec.talk.util;
 
 /**
  * @ClassName LogUtil

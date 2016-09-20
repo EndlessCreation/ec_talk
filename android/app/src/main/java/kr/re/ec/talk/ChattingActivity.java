@@ -22,14 +22,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import kr.re.ec.talk.dto.Message;
 import kr.re.ec.talk.service.MessageService;
+import kr.re.ec.talk.util.Constants;
+import kr.re.ec.talk.util.LogUtil;
 
 /**
  * Created by slhyv on 9/19/2016. *
  * TODO: show my message datetime I sent
- * TODO: make service
+ * DONE: make service
  * TODO: server communication
- * TODO: make my token input activity
+ * TODO: make my token input activity(SignInActivity)
  * TODO: make gcm listener
  * TODO: refactor code
  * TODO: fix bugs
@@ -271,6 +274,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
         super.onResume();
         //TODO: remove notification for this chattingRoom
 
+        mContext = this;
         mMainCursor = getChatCursor();
 
         mChatCursorAdapter = new ChatCursorAdapter(mContext, mMainCursor);
@@ -279,31 +283,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
         //TODO: restore listview position
 
-        //mContext = this;
 
-        //		mInflater = (LayoutInflater) mContext
-        //				.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
-        //		profileData = PrefUtil.getProfileInfoPreference(mContext);
-        //		try {
-        //			JSONObject profilJsonData = new JSONObject(profileData);
-        //			if (ImessengerConst.ISDEBUG) {
-        //				Log.e(TAG, "profilJsonData ::  " + profilJsonData.toString());
-        //			}
-        //
-        //			mMyName = profilJsonData
-        //					.getString(ImessengerConst.JSON_DETAIL_KEY_KOREAN_NAME);
-        //			mMyId = profilJsonData
-        //					.getString(ImessengerConst.JSON_DETAIL_KEY_USER_ID);
-        //			mMyFileTransferAuth = profilJsonData
-        //					.getString(ImessengerConst.JSON_DETAIL_KEY_FILE_TRANS_AUTH);
-        //
-        //			mMyUserKey = profilJsonData
-        //					.getString(ImessengerConst.JSON_DETAIL_KEY_USER_KEY);
-        //			mMyMobileIndex = profilJsonData
-        //					.getString(ImessengerConst.JSON_DETAIL_KEY_MOBILE_INDEX);
-        //		} catch (JSONException e) {
-        //			e.printStackTrace();
-        //		}
 
     }
 
@@ -327,39 +307,6 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
                 ProviderController.COLS_MESSAGE_ARR, null, null, MessageProvider.ORDER_BY_DATETIME_ASC);
         LogUtil.i(TAG, "c.getCount(): " + c.getCount());
 
-//		if (c != null && c.getCount() > 0) { // TODO: I DONT KNOW WHY IT EXISTS.
-//			c.moveToFirst();
-//			Cursor chattingC = null;
-//
-//			String groupChatState = c.getString(c
-//					.getColumnIndex(ChatHistoryProvider.KEY_GROUP_CHAT_STATE));
-//			ImessengerConst.IS_GROUP_STATE = groupChatState;
-//
-//			if (groupChatState.endsWith("true")) {
-//				// 그룹 채팅 상태
-//				chattingC = managedQuery(ChatHistoryProvider.CONTENT_URI_MSG,
-//						ProviderUtil.AS_CHATHISTORYCOLUMNS_TO_RETURN,
-//						ChatHistoryProvider.KEY_ROOM_ID + " =?" + " AND "
-//								+ ChatHistoryProvider.KEY_MIME_TYPE + " !=?",
-//						new String[] { RoomId, "" },
-//						ProviderUtil.historyOrder_asc);
-//			} else {
-//				// 1:1 채팅 상태
-//				chattingC = managedQuery(ChatHistoryProvider.CONTENT_URI_MSG,
-//						ProviderUtil.AS_CHATHISTORYCOLUMNS_TO_RETURN,
-//						ChatHistoryProvider.KEY_ROOM_ID + " =?" + " AND "
-//								+ ChatHistoryProvider.KEY_MIME_TYPE + " !=?",
-//						new String[] { RoomId, "" },
-//						ProviderUtil.historyOrder_asc);
-//			}
-//			if (chattingC != null && chattingC.getCount() > 0) {
-//				chattingC.moveToFirst();
-//				startManagingCursor(chattingC);
-//			}
-//
-//			c.close();
-//
-//			return chattingC;
         return c;
     }
 

@@ -1,4 +1,4 @@
-package kr.re.ec.talk;
+package kr.re.ec.talk.util;
 
 /**
  * Created by slhyv on 9/19/2016.
@@ -9,13 +9,19 @@ public class Constants {
     //TODO: temporary value
     public static final String MY_TOKEN = "f99b7262-046a-42e3-994b-a96a6f278a8a";
 
+    public abstract class Network {
+        public static final String HOST_URL = "http://117.17.198.41:8080/ec_talk";
+        public static final String SEND_MESSAGE_URL = HOST_URL + "/SendMessageServlet";
+        public static final String CODE_TYPE_SEND_MESSAGE = "CODE_TYPE_SEND_MESSAGE";
+    }
+
     public abstract class Action {
         public static final String ACTION_TO_SERVICE_SEND_MESSAGE_REQ =
                 Package.PACKAGE_NAME + "." + "ACTION_TO_SERVICE_SEND_MESSAGE_REQ";
 
         public static final String ACTION_TO_CHATTING_SEND_MESSAGE_RES =
                 Package.PACKAGE_NAME + "." + "ACTION_TO_CHATTING_SEND_MESSAGE_RES";
-        public static final String ACTION_TO_CHATTING_REFRESH_VIEW_REQ =
+        public static final String ACTION_TO_CHATTING_REFRESH_VIEW_REQ = //TODO: is it needed?
                 Package.PACKAGE_NAME + "." + "ACTION_TO_CHATTING_REFRESH_VIEW_REQ";
         public static final String ACTION_TO_CHATTING_CHECK_TOKEN_RES =
                 Package.PACKAGE_NAME + "." + "ACTION_TO_CHATTING_CHECK_TOKEN_RES";
