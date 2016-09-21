@@ -87,7 +87,7 @@ public class MessageService extends Service {
         //make param
         SendMessageRequest requestParam = new SendMessageRequest();
         requestParam.setCode(Constants.Network.CODE_TYPE_SEND_MESSAGE);
-        requestParam.setToken(Constants.MY_TOKEN);
+        requestParam.setToken(Constants.MetaInfo.MY_TOKEN); //TODO: check token valid
         requestParam.setMessage(m);
         LogUtil.v(TAG, "requestParam: " + requestParam);
 
@@ -121,7 +121,7 @@ public class MessageService extends Service {
         //make param
         RequestNewMessagesRequest requestParam = new RequestNewMessagesRequest();
         requestParam.setCode(Constants.Network.CODE_TYPE_REQUEST_NEW_MESSAGES);
-        requestParam.setToken(Constants.MY_TOKEN);
+        requestParam.setToken(Constants.MetaInfo.MY_TOKEN); //TODO: check token valid
         LogUtil.v(TAG, "requestParam: " + requestParam);
 
         GsonRequest<RequestNewMessagesResponse> request = new GsonRequest<>(
@@ -185,9 +185,9 @@ public class MessageService extends Service {
                     //insert new message
                     Message m = new Message(
                             Message.ID_NOT_SET,
-                            12, //TODO: my id..?
-                            Constants.MY_TOKEN,
-                            "김태희[21]", //TODO: make my nickname...?
+                            Message.SENDER_ID_NOT_SET,
+                            Constants.MetaInfo.MY_TOKEN, //TODO: check token valid
+                            Constants.MetaInfo.MY_NICKNAME,
                             formattedNowStr,
                             messageString,
                             Message.STATE_NOT_SENT_TO_SERVER);

@@ -2,7 +2,7 @@
     <string name="app_name">ec_talk</string>
     <string name="title_activity_sign_in">Sign in</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to sign-in -->
     <string name="prompt_token">Token</string>
     <string name="action_sign_in">Sign in</string>
     <string name="error_invalid_token">Invalid token</string>

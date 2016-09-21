@@ -14,8 +14,8 @@ import kr.re.ec.talk.util.LogUtil;
 public class JDBCProvider {
 	//TODO: MUST REMOVE REAL ACCOUNT
 	//TODO: make file read
-	private static final String DATABASE_USER_ID = "ecserver";
-	private static final String DATABASE_USER_PW = "!comdong1";
+	private static final String DATABASE_USER_ID = "root";
+	private static final String DATABASE_USER_PW = "root";
 	private static final String DATABASE_NAME = "ec_talk";
 	
 	public static final String CHARSET = "utf8"; //for DAO

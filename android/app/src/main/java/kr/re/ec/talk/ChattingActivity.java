@@ -319,7 +319,8 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
 
             LogUtil.v(TAG, "pos: " + pos + " / m data: " + m.toString());
 
-            if(!(m.getSenderToken().equals(Constants.MY_TOKEN))) {
+            //TODO: check token valid
+            if(!(m.getSenderToken().equals(Constants.MetaInfo.MY_TOKEN))) {
                 //not my message
 
                 tvOthersName.setText(m.getSenderNickname());

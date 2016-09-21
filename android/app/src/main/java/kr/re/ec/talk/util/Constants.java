@@ -5,15 +5,17 @@ package kr.re.ec.talk.util;
  */
 public final class Constants {
     public static final boolean IS_DEBUG = true;
+
+    public static class MetaInfo {
+        public static String MY_TOKEN = "";
+        public static String MY_NICKNAME = "";
+    }
+
     public abstract class Package {
         public static final String PACKAGE_NAME = "kr.re.ec.talk";
         public static final String SERVICE_PACKAGE_NAME = PACKAGE_NAME + ".service";
         public static final String SERVICE_CLASS_NAME = SERVICE_PACKAGE_NAME + ".MessageService";
     }
-
-    //TODO: temporary value
-    public static final String MY_TOKEN = "f99b7262-046a-42e3-994b-a96a6f278a8a"; //Taehee Kim
-    //public static final String MY_TOKEN = "873636ce-cedb-4c4a-8695-470a000bd5ef"; //Gang Choi
 
     public abstract class Network {
         public static final String HOST_URL = "http://117.17.198.41:8080/ec_talk";

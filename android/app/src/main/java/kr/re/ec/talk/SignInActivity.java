@@ -27,6 +27,7 @@ import kr.re.ec.talk.dto.AuthResponse;
 import kr.re.ec.talk.util.Constants;
 import kr.re.ec.talk.util.GsonRequest;
 import kr.re.ec.talk.util.LogUtil;
+import kr.re.ec.talk.util.PrefUtil;
 import kr.re.ec.talk.util.RequestController;
 
 /**
@@ -47,6 +48,13 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+
+        //check preferences
+        Constants.MetaInfo.MY_TOKEN = PrefUtil.getString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, "");
+        if(!Constants.MetaInfo.MY_TOKEN.equals("")) { //if have valid values
+            finish(); //TODO: do validation
+        }
+
         // Set up the sign-in form.
         setContentView(R.layout.activity_sign_in);
 
@@ -111,7 +119,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void requestAuth(String token) {
         //make param
-        AuthRequest requestParam = new AuthRequest();
+        final AuthRequest requestParam = new AuthRequest();
         requestParam.setCode(Constants.Network.CODE_TYPE_AUTH);
         requestParam.setToken(token);
         LogUtil.v(TAG, "requestParam: " + requestParam);
@@ -127,7 +135,11 @@ public class SignInActivity extends AppCompatActivity {
                         showProgress(false);
 
                         if(response.getSuccess()) { //on Success
-                            //TODO: insert into preference
+                            PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_NICKNAME, response.getNickname());
+                            PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, requestParam.getToken());
+                            Constants.MetaInfo.MY_TOKEN = requestParam.getToken();
+                            Constants.MetaInfo.MY_NICKNAME = response.getNickname();
+
                             startActivity(new Intent(mContext, ChattingActivity.class));
                             finish();
                          } else {

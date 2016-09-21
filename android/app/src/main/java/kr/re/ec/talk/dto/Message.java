@@ -13,6 +13,7 @@ public class Message {
     public static final int STATE_REQUEST_SENT_TO_SERVER = 2201;
     public static final int STATE_SENT = 2202;
     public static final int ID_NOT_SET = -1;
+    public static final int SENDER_ID_NOT_SET = -1;
 
     private int id;
     private int senderId;
