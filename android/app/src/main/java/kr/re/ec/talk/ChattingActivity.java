@@ -32,11 +32,11 @@ import kr.re.ec.talk.util.ProviderController;
  * Created by slhyv on 9/19/2016. *
  * DONE: show my message datetime I sent
  * DONE: make service
- * TODO: server communication
- * TODO: make my token input activity(SignInActivity)
+ * DONE: server communication
+ * DONE: make my token input activity(SignInActivity)
  * TODO: make gcm listener
  * TODO: refactor code
- * TODO: fix bugs
+ * TODO: fix bugs. about "'", remove SignInActivity scrollable,
  */
 public class ChattingActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = ChattingActivity.class.getSimpleName();

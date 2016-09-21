@@ -52,6 +52,7 @@ public class SignInActivity extends AppCompatActivity {
         //check preferences
         Constants.MetaInfo.MY_TOKEN = PrefUtil.getString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, "");
         if(!Constants.MetaInfo.MY_TOKEN.equals("")) { //if have valid values
+            startActivity(new Intent(mContext, ChattingActivity.class));
             finish(); //TODO: do validation
         }
 
