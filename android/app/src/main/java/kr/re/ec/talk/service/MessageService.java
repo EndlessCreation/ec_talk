@@ -15,10 +15,9 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import kr.re.ec.talk.ProviderController;
+import kr.re.ec.talk.util.ProviderController;
 import kr.re.ec.talk.dto.Message;
 import kr.re.ec.talk.dto.RequestNewMessagesRequest;
 import kr.re.ec.talk.dto.RequestNewMessagesResponse;

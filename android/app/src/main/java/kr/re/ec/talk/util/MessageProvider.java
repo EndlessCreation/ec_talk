@@ -1,4 +1,4 @@
-package kr.re.ec.talk;
+package kr.re.ec.talk.util;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-
-import kr.re.ec.talk.util.LogUtil;
 
 /**
  * ContentProvider for Chatting Msg Storage
@@ -21,7 +19,7 @@ public class MessageProvider extends ContentProvider {
     //general info
     public static final String TABLE_NAME_MESSAGES = "messages";
     private static final String DATABASE_NAME_MESSAGES = "messages.db";
-    private static final String AUTHORITY = "kr.re.ec.talk.MessageProvider"; //TODO: change it's name
+    private static final String AUTHORITY = "kr.re.ec.talk.util.MessageProvider"; //TODO: change it's name
     public static final Uri CONTENT_URI_MESSAGE = Uri.parse("content://"
             + AUTHORITY + "/" + TABLE_NAME_MESSAGES);
 

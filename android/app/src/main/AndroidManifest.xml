@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="kr.re.ec.talk">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -10,29 +10,37 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChattingActivity">
+        <activity android:name=".SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ChattingActivity"
+            android:theme="@style/AppTheme"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateUnspecified|adjustPan" >
+        </activity>
 
         <provider
-            android:name="kr.re.ec.talk.MessageProvider"
-            android:authorities="kr.re.ec.talk.MessageProvider" />
+            android:name=".util.MessageProvider"
+            android:authorities="kr.re.ec.talk.util.MessageProvider"/>
 
-        <service android:name=".service.MessageService"></service>
+        <service android:name=".service.MessageService"/>
 
         <receiver
             android:name=".service.ServiceWaker"
             android:enabled="true"
             android:exported="false"
-            android:label="ServiceWaker" >
+            android:label="ServiceWaker">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+
+
     </application>
 
 </manifest>

@@ -15,9 +15,9 @@ public final class AuthResponse extends ResponseBase {
         this.nickname = nickname;
     }
 
-	@Override
-	public String toString() {
-		return "AuthResponse [nickname=" + nickname + ", getSuccess()="
-				+ getSuccess() + ", getMessage()=" + getMessage() + "]";
-	}
+    @Override
+    public String toString() {
+        return "AuthResponse [nickname=" + nickname + ", getSuccess()="
+                + getSuccess() + ", getMessage()=" + getMessage() + "]";
+    }
 }

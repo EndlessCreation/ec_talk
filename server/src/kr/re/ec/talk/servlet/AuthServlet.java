@@ -15,6 +15,7 @@ import kr.re.ec.talk.common.Constants;
 import kr.re.ec.talk.dao.UserDao;
 import kr.re.ec.talk.dto.AuthRequest;
 import kr.re.ec.talk.dto.AuthResponse;
+import kr.re.ec.talk.dto.User;
 import kr.re.ec.talk.util.LogUtil;
 
 import com.google.gson.Gson;
@@ -55,8 +56,10 @@ public class AuthServlet extends HttpServlet {
 					&& userDao.isValidUserByToken(authRequest.getToken())) {
 				
 				LogUtil.v("valid request code and token.");
+				User user = userDao.findUserByToken(authRequest.getToken());
 				authResponse.setSuccess(true);
 				authResponse.setMessage("authentication complete.");
+				authResponse.setNickname(user.getNickname());
 			} else {
 				throw new Exception("invalid request code or token.");
 			}
@@ -64,9 +67,11 @@ public class AuthServlet extends HttpServlet {
 			LogUtil.e(e.getMessage());
 			authResponse.setSuccess(false);
 			authResponse.setMessage("authentication failed.");
+			authResponse.setNickname("");
 		}
 		
 		//set content type
+		response.setCharacterEncoding(Constants.CHARSET);
 		response.setContentType("application/json"); 
 		
 		//output

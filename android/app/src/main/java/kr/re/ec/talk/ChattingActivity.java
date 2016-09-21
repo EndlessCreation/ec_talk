@@ -25,10 +25,12 @@ import kr.re.ec.talk.dto.Message;
 import kr.re.ec.talk.service.MessageService;
 import kr.re.ec.talk.util.Constants;
 import kr.re.ec.talk.util.LogUtil;
+import kr.re.ec.talk.util.MessageProvider;
+import kr.re.ec.talk.util.ProviderController;
 
 /**
  * Created by slhyv on 9/19/2016. *
- * TODO: show my message datetime I sent
+ * DONE: show my message datetime I sent
  * DONE: make service
  * TODO: server communication
  * TODO: make my token input activity(SignInActivity)
@@ -80,7 +82,6 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.Action.ACTION_TO_CHATTING_SEND_MESSAGE_RES);
         filter.addAction(Constants.Action.ACTION_TO_CHATTING_REFRESH_VIEW_REQ);
-        filter.addAction(Constants.Action.ACTION_TO_CHATTING_CHECK_TOKEN_RES);
 
         mReceiver = new MessageReceiver();
         registerReceiver(mReceiver, filter);

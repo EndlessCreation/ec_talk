@@ -1,16 +1,11 @@
-package kr.re.ec.talk;
+package kr.re.ec.talk.util;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import kr.re.ec.talk.dto.Message;
-import kr.re.ec.talk.util.LogUtil;
 
 /**
  * DB ProviderController

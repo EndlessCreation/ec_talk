@@ -97,6 +97,7 @@ public class SendMessageServlet extends HttpServlet {
 		}
 		
 		//set content type
+		response.setCharacterEncoding(Constants.CHARSET);
 		response.setContentType("application/json"); 
 		
 		//output
