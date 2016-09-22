@@ -7,8 +7,35 @@ public final class Constants {
     public static final boolean IS_DEBUG = true;
 
     public static class MetaInfo {
-        public static String MY_TOKEN = "";
-        public static String MY_NICKNAME = "";
+        private static String MY_TOKEN = "";
+        private static String MY_NICKNAME = "";
+
+        /**
+         * TODO: add no my token exception
+         * @return if empty string return, there is no MY_TOKEN in preferences.
+         */
+        public static String getMyToken() {
+            if(MY_TOKEN.equals("")) { //if empty
+                MY_TOKEN = PrefUtil.getString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, ""); //get temp data
+            }
+            return MY_TOKEN;
+        }
+        public static void setMyToken(String token) {
+            MY_TOKEN = token;
+            PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, token);
+        }
+
+        public static String getMyNickname() {
+            if(MY_NICKNAME.equals("")) { //if empty
+                MY_NICKNAME = PrefUtil.getString(PrefUtil.PREFERENCES_KEY_MY_NICKNAME, ""); //get temp data
+            }
+            return MY_NICKNAME;
+        }
+
+        public static void setMyNickname(String nickname) {
+            MY_NICKNAME = nickname;
+            PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_NICKNAME, nickname);
+        }
     }
 
     public abstract class Package {

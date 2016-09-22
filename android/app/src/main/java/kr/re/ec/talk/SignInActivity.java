@@ -50,8 +50,7 @@ public class SignInActivity extends AppCompatActivity {
         mContext = this;
 
         //check preferences
-        Constants.MetaInfo.MY_TOKEN = PrefUtil.getString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, "");
-        if(!Constants.MetaInfo.MY_TOKEN.equals("")) { //if have valid values
+        if(!Constants.MetaInfo.getMyToken().equals("")) { //if have valid values
             startActivity(new Intent(mContext, ChattingActivity.class));
             finish(); //TODO: do validation
         }
@@ -136,10 +135,8 @@ public class SignInActivity extends AppCompatActivity {
                         showProgress(false);
 
                         if(response.getSuccess()) { //on Success
-                            PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_NICKNAME, response.getNickname());
-                            PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, requestParam.getToken());
-                            Constants.MetaInfo.MY_TOKEN = requestParam.getToken();
-                            Constants.MetaInfo.MY_NICKNAME = response.getNickname();
+                            Constants.MetaInfo.setMyToken(requestParam.getToken());
+                            Constants.MetaInfo.setMyNickname(response.getNickname());
 
                             startActivity(new Intent(mContext, ChattingActivity.class));
                             finish();

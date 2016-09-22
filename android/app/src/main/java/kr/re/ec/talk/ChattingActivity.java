@@ -36,7 +36,7 @@ import kr.re.ec.talk.util.ProviderController;
  * DONE: make my token input activity(SignInActivity)
  * TODO: make gcm listener
  * TODO: refactor code
- * TODO: fix bugs. about "'", remove SignInActivity scrollable,
+ * TODO: fix bugs. about "'", remove SignInActivity scrollable, send with empty token
  */
 public class ChattingActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = ChattingActivity.class.getSimpleName();
@@ -320,7 +320,7 @@ public class ChattingActivity extends AppCompatActivity implements View.OnClickL
             LogUtil.v(TAG, "pos: " + pos + " / m data: " + m.toString());
 
             //TODO: check token valid
-            if(!(m.getSenderToken().equals(Constants.MetaInfo.MY_TOKEN))) {
+            if(!(m.getSenderToken().equals(Constants.MetaInfo.getMyToken()))) {
                 //not my message
 
                 tvOthersName.setText(m.getSenderNickname());
