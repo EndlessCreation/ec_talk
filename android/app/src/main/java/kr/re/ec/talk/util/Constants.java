@@ -5,6 +5,7 @@ package kr.re.ec.talk.util;
  */
 public final class Constants {
     public static final boolean IS_DEBUG = true;
+    private static final String TAG = Constants.class.getSimpleName();
 
     public static class MetaInfo {
         private static String MY_TOKEN = "";
@@ -16,6 +17,7 @@ public final class Constants {
          */
         public static String getMyToken() {
             if(MY_TOKEN.equals("")) { //if empty
+                LogUtil.d(TAG, "MY_TOKEN is empty. attemp to load from preferences");
                 MY_TOKEN = PrefUtil.getString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, ""); //get temp data
             }
             return MY_TOKEN;
@@ -27,6 +29,7 @@ public final class Constants {
 
         public static String getMyNickname() {
             if(MY_NICKNAME.equals("")) { //if empty
+                LogUtil.d(TAG, "MY_NICKNAME is empty. attemp to load from preferences");
                 MY_NICKNAME = PrefUtil.getString(PrefUtil.PREFERENCES_KEY_MY_NICKNAME, ""); //get temp data
             }
             return MY_NICKNAME;
