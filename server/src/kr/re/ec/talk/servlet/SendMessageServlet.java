@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +21,8 @@ import kr.re.ec.talk.dto.SendMessageResponse;
 import kr.re.ec.talk.dto.User;
 import kr.re.ec.talk.util.LogUtil;
 
+import com.google.android.gcm.server.MulticastResult;
+import com.google.android.gcm.server.Sender;
 import com.google.gson.Gson;
 
 /**
@@ -36,6 +39,9 @@ public class SendMessageServlet extends HttpServlet {
 	private UserDao userDao;
 	private MessageDao messageDao;
 
+	//for gcms
+	private static final String SERVER_AUTH_KEY = "AIzaSyCdxkOzkMFe_2bZixWgO-spEedo-x8F_lQ";
+	
 	public SendMessageServlet() {
 		userDao = UserDao.getInstance();
 		messageDao = MessageDao.getInstance();
@@ -82,9 +88,33 @@ public class SendMessageServlet extends HttpServlet {
 						} //TODO: this should be 1. make exception
 					}
 				}
+
+				//send GCM
+				Sender sender = new Sender(SERVER_AUTH_KEY);
+
+				// use this to send message with payload data
+				com.google.android.gcm.server.Message message = new com.google.android.gcm.server.Message.Builder()
+				.collapseKey("message")
+				.timeToLive(3)
+				.delayWhileIdle(true)
+				.addData("message", toSendMessage.getContents()) 
+				.addData("nickname", toSendMessage.getSenderNickname())
+				.addData("datetime", toSendMessage.getSendDatetime())
+				.build(); 
+
+				//Use this code to send notification message to multiple devices
+				//add your devices RegisterationID, one for each device               
+				List<String> devicesList = userDao.findAllDeviceIdsExceptForSender(toSendMessage.getSenderToken());
+				for(String deviceId: devicesList) {
+					LogUtil.v("target deviceId: " + deviceId);
+				}
+				LogUtil.v("target devicesList.size(): " + devicesList.size());
 				
+				//Use this code for multicast messages   
+				MulticastResult multicastResult = sender.send(message, devicesList, 0);
+				LogUtil.v("Message Result: "+multicastResult.toString());//Print multicast message result on console
 				
-				
+				//set response
 				sendMessageResponse.setSuccess(true);
 				sendMessageResponse.setMessage("send message complete");
 			} else {
@@ -94,7 +124,7 @@ public class SendMessageServlet extends HttpServlet {
 			LogUtil.e(e.getMessage());
 			sendMessageResponse.setSuccess(false);
 			sendMessageResponse.setMessage("send message failed.");
-		}
+		} 
 		
 		//set content type
 		response.setCharacterEncoding(Constants.CHARSET);

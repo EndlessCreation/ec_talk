@@ -42,9 +42,9 @@ public class DBInitializer {
 			userDao.insertNewUser(new User(User.ID_NOT_SET, "081eafe7-5e4c-43ab-b041-4e0bb548ce7a", "김재완[25]", ""));
 			userDao.insertNewUser(new User(User.ID_NOT_SET, "14c4f845-109d-4004-8349-b34c89775fbb", "조연희[26]", ""));
 			userDao.insertNewUser(new User(User.ID_NOT_SET, "88d4552e-1696-49fa-b144-00e9770b5000", "김성규[26]", ""));
-			userDao.insertNewUser(new User(User.ID_NOT_SET, "c1220e4c-e872-4ada-b1f0-03261a6e8831", "박주환[26]", ""));
+			userDao.insertNewUser(new User(User.ID_NOT_SET, "c1220e4c-e872-4ada-b1f0-03261a6e8831", "강주호[23]", ""));
 			userDao.insertNewUser(new User(User.ID_NOT_SET, "f99b7262-046a-42e3-994b-a96a6f278a8a", "김태희[21]", ""));
-			userDao.insertNewUser(new User(User.ID_NOT_SET, "6ac62be8-f81d-40e7-b730-3ea627a05b8b", "김희태[00]", ""));
+			userDao.insertNewUser(new User(User.ID_NOT_SET, "6ac62be8-f81d-40e7-b730-3ea627a05b8b", "이호상[22]", ""));
 
 			messageDao.dropTable();	
 			messageDao.createTableIfNotExists();

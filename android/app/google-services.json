@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "803858209365",
+    "firebase_url": "https://ec-talk.firebaseio.com",
+    "project_id": "ec-talk",
+    "storage_bucket": "ec-talk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803858209365:android:3a64d533859f2ab3",
+        "android_client_info": {
+          "package_name": "kr.re.ec.talk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "803858209365-ncrn2kb2324gr1omusggio4ha1dqe2vt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.re.ec.talk",
+            "certificate_hash": "5CBE9AA4E8D9E34F8E2384F45668B1ECFB510CA1"
+          }
+        },
+        {
+          "client_id": "803858209365-fhdq7ceocalevhsas1gtf18u077t031l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2tw2rH_d41ILI6cyIji9kxuu3zIdtbII"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803858209365-fhdq7ceocalevhsas1gtf18u077t031l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

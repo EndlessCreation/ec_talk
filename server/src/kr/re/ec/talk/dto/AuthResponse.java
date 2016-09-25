@@ -5,7 +5,7 @@ package kr.re.ec.talk.dto;
  * @author Taehee Kim 2016-09-17
  */
 public final class AuthResponse extends ResponseBase {
-    private String nickname;
+    protected String nickname;
 
     public String getNickname() {
         return nickname;

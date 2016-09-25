@@ -14,6 +14,7 @@ public class PrefUtil {
      * */
     public static final String PREFERENCES_KEY_MY_TOKEN = "PREFERENCES_KEY_MY_TOKEN";
     public static final String PREFERENCES_KEY_MY_NICKNAME = "PREFERENCES_KEY_MY_NICKNAME";
+    public static final String PREFERENCES_KEY_MY_DEVICE_ID = "PREFERENCES_KEY_MY_DEVICE_ID";
 
     public static String getString(String key, String defValue) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(App.context);

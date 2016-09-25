@@ -21,6 +21,9 @@ import kr.re.ec.talk.dto.RequestNewMessagesRequest;
 import kr.re.ec.talk.dto.RequestNewMessagesResponse;
 import kr.re.ec.talk.util.LogUtil;
 
+import com.google.android.gcm.server.MulticastResult;
+import com.google.android.gcm.server.Result;
+import com.google.android.gcm.server.Sender;
 import com.google.gson.Gson;
 
 /**
@@ -36,7 +39,7 @@ public class RequestNewMessagesServlet extends HttpServlet {
 	
 	private MessageDao messageDao;
 	private UserDao userDao;
-
+	
 	public RequestNewMessagesServlet() {
 		messageDao = MessageDao.getInstance();
 		userDao = UserDao.getInstance();
@@ -65,16 +68,17 @@ public class RequestNewMessagesServlet extends HttpServlet {
 				//get messages
 				List<Message> messages = messageDao.findUnsentMessagesByReceiverToken(newRequest.getToken());
 				messagesResponse.setMessages(messages);
-				
+
 				//update message state
 				for(Message e: messages) {
 					messageDao.updateStateById(e.getId(), Message.STATE_SENT_TO_CLIENT);
 				}
-				
+
 				messagesResponse.setSuccess(true);
 				messagesResponse.setMessage("request new messages complete.");
-				
+
 				LogUtil.v("" + messages.size() + " messages found. response: " + messagesResponse.toString());
+
 			} else {
 				throw new Exception("invalid request code or token.");
 			}
@@ -91,4 +95,5 @@ public class RequestNewMessagesServlet extends HttpServlet {
 		//output
 		response.getWriter().print(gson.toJson(messagesResponse));
 	}
+	
 }

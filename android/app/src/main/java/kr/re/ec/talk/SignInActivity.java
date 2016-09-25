@@ -122,6 +122,12 @@ public class SignInActivity extends AppCompatActivity {
         final AuthRequest requestParam = new AuthRequest();
         requestParam.setCode(Constants.Network.CODE_TYPE_AUTH);
         requestParam.setToken(token);
+        if("".equals(Constants.MetaInfo.getMyDeviceId())) {
+            LogUtil.e(TAG, "no device id!!");
+            //TODO: register gcm
+//            throw new Exception("no deviceId registered");
+        }
+        requestParam.setDeviceId(Constants.MetaInfo.getMyDeviceId());
         LogUtil.v(TAG, "requestParam: " + requestParam);
 
         GsonRequest<AuthResponse> request = new GsonRequest<>(

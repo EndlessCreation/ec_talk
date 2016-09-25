@@ -23,7 +23,10 @@ public class RequestBase {
 
     @Override
     public String toString() {
-        return "RequestBase [code=" + code + "]";
+        return "RequestBase{" +
+                "code='" + code + '\'' +
+                ", token='" + token + '\'' +
+                '}';
     }
 
 }

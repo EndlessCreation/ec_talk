@@ -10,6 +10,7 @@ public final class Constants {
     public static class MetaInfo {
         private static String MY_TOKEN = "";
         private static String MY_NICKNAME = "";
+        private static String MY_DEVICE_ID = "";
 
         /**
          * TODO: add no my token exception
@@ -27,6 +28,9 @@ public final class Constants {
             PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_TOKEN, token);
         }
 
+        /**
+         * If empty, load it from SharedPreferences.
+         */
         public static String getMyNickname() {
             if(MY_NICKNAME.equals("")) { //if empty
                 LogUtil.d(TAG, "MY_NICKNAME is empty. attemp to load from preferences");
@@ -38,6 +42,22 @@ public final class Constants {
         public static void setMyNickname(String nickname) {
             MY_NICKNAME = nickname;
             PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_NICKNAME, nickname);
+        }
+
+        /**
+         * If empty, load it from SharedPreferences.
+         */
+        public static String getMyDeviceId() {
+            if(MY_DEVICE_ID.equals("")) { //if empty
+                LogUtil.d(TAG, "MY_DEVICE_ID is empty. attempt to load from preferences");
+                MY_DEVICE_ID = PrefUtil.getString(PrefUtil.PREFERENCES_KEY_MY_DEVICE_ID, ""); //get temp data
+            }
+            return MY_DEVICE_ID;
+        }
+
+        public static void setMyDeviceId(String deviceId) {
+            MY_DEVICE_ID = deviceId;
+            PrefUtil.putString(PrefUtil.PREFERENCES_KEY_MY_DEVICE_ID, deviceId);
         }
     }
 
@@ -68,6 +88,9 @@ public final class Constants {
 
         public static final String ACTION_TO_CHATTING_REFRESH_VIEW_REQ =
                 Package.PACKAGE_NAME + "." + "ACTION_TO_CHATTING_REFRESH_VIEW_REQ";
+
+        public static final String ACTION_TO_SERVICE_REQUEST_NEW_MESSAGE =
+                Package.PACKAGE_NAME + "." + "ACTION_TO_SERVICE_REQUEST_NEW_MESSAGE";
 
         public static final String ACTION_TO_SERVICE_AUTH_REQ =
                 Package.PACKAGE_NAME + "." + "ACTION_TO_SERVICE_AUTH_REQ";

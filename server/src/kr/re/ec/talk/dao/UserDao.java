@@ -144,12 +144,49 @@ public class UserDao extends JDBCProvider {
 	}
 
 	/**
+	 * get all device id except for my token
+	 * @return ArrayList<String> 
+	 * @throws SQLException 
+	 */
+	public ArrayList<String> findAllDeviceIdsExceptForSender(String senderToken) throws SQLException { 
+		ArrayList<String> deviceIds = new ArrayList<>();
+
+		Connection c = null; 
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			c = getConnection();
+			stmt = c.createStatement();
+			String query = "SELECT " 
+					+ COL_DEVICE_ID
+					+ " FROM " + TABLE_NAME
+					+ " WHERE " + COL_TOKEN + " <> '" + senderToken //not sender 
+					+ "' AND " + COL_DEVICE_ID + " <> ''" //not empty 
+					+ ";"; 
+			LogUtil.v("query: " + query);
+			rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				//not empty or not mine
+				deviceIds.add(rs.getString(COL_DEVICE_ID));
+			}
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if(rs != null) 		try {rs.close();	} catch(Exception e){}
+			if(stmt != null) 	try {stmt.close();	} catch(Exception e){}
+			if(c != null) 		try {c.close();		} catch(Exception e){}
+		}
+
+		return deviceIds;
+	}
+
+	/**
 	 * Validation user by token
 	 * @throws SQLException 
 	 */
 	public boolean isValidUserByToken(String token) throws SQLException { 
 		boolean isValid = false;
-		
+
 		Connection c = null; 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -169,7 +206,7 @@ public class UserDao extends JDBCProvider {
 				countResult = rs.getInt(1);
 				LogUtil.v("countResult: " + countResult);
 			}
-			
+
 			if(countResult == 1) {
 				isValid = true;
 			} else {
@@ -185,7 +222,7 @@ public class UserDao extends JDBCProvider {
 
 		return isValid;
 	}
-	
+
 	/**
 	 * find user by Token
 	 * @throws SQLException
@@ -193,7 +230,7 @@ public class UserDao extends JDBCProvider {
 	 */
 	public User findUserByToken(String token) throws SQLException { 
 		User user = null;
-		
+
 		Connection c = null; 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -262,5 +299,34 @@ public class UserDao extends JDBCProvider {
 		return result;
 	}
 
-}
+	//update
+	/** 
+	 * update deviceId by id
+	 * @param id id
+	 * @param deviceId deviceId to update
+	 * @return the updated row count.
+	 * @throws SQLException 
+	 */
+	public int updateDeviceIdById(long id, String deviceId) throws SQLException { 
+		int result = 0;
 
+		Connection c = null; 
+		Statement stmt = null;
+		try {
+			c = getConnection();
+			stmt = c.createStatement();
+			String query = "UPDATE " + TABLE_NAME
+					+ " SET " + COL_DEVICE_ID + "='" + deviceId + "'"
+					+ " WHERE " + COL_ID + "='" + id + "';";
+			LogUtil.v("query: " + query);
+			result=stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			if(stmt != null) 	try {stmt.close();	} catch(Exception e){}
+			if(c != null) 		try {c.close();		} catch(Exception e){}
+		}
+
+		return result;
+	}
+}

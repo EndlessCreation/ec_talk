@@ -5,14 +5,20 @@ package kr.re.ec.talk.dto;
  * @author Taehee Kim 2016-09-17
  */
 public final class AuthRequest extends RequestBase {
+    private String deviceId;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
     @Override
     public String toString() {
-        return "AuthRequest [getCode()=" + getCode() + ", getToken()="
-                + getToken() + ", toString()=" + super.toString()
-                + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-                + "]";
+        return "AuthRequest{" +
+                "deviceId='" + deviceId + '\'' +
+                "} " + super.toString();
     }
-
-
 }

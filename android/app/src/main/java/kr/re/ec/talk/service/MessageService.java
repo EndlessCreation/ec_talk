@@ -49,6 +49,7 @@ public class MessageService extends Service {
         //register receiver with actions
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.Action.ACTION_TO_SERVICE_SEND_MESSAGE_REQ);
+        filter.addAction(Constants.Action.ACTION_TO_SERVICE_REQUEST_NEW_MESSAGE);
 
         mReceiver = new MessageReceiver();
         registerReceiver(mReceiver, filter);
@@ -193,12 +194,16 @@ public class MessageService extends Service {
                             Message.STATE_NOT_SENT_TO_SERVER);
                     ProviderController.MessageController.insertNewChatMsg(mContext, m);
 
+                    Intent requestNewMessagesIntent = new Intent(Constants.Action.ACTION_TO_SERVICE_REQUEST_NEW_MESSAGE);
+                    sendBroadcast(requestNewMessagesIntent);
+
                     requestSendMessage(m);
 
-                    //TODO: temporary call. MUST remove this.
-                    requestNewMessages();
-
                     //TODO: update message state after send request
+                    break;
+                case Constants.Action.ACTION_TO_SERVICE_REQUEST_NEW_MESSAGE:
+                    LogUtil.v(TAG, "received ACTION_TO_SERVICE_REQUEST_NEW_MESSAGE.");
+                    requestNewMessages();
                     break;
             }
         }

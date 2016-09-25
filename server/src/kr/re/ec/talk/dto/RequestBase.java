@@ -20,10 +20,8 @@ public class RequestBase {
 	public void setToken(String token) {
 		this.token = token;
 	}
-
 	@Override
 	public String toString() {
-		return "RequestBase [code=" + code + "]";
+		return "RequestBase [code=" + code + ", token=" + token + "]";
 	}
-	
 }

@@ -53,10 +53,22 @@ public class AuthServlet extends HttpServlet {
 		AuthResponse authResponse = new AuthResponse();
 		try {
 			if(CODE_TYPE_AUTH.equals(authRequest.getCode()) 
-					&& userDao.isValidUserByToken(authRequest.getToken())) {
+					&& userDao.isValidUserByToken(authRequest.getToken())) { //TODO: update gcm
 				
 				LogUtil.v("valid request code and token.");
+				
+				//TODO: if empty deviceId, throw Exception
 				User user = userDao.findUserByToken(authRequest.getToken());
+				if(user.getDeviceId().equals(authRequest.getDeviceId()) || 
+					authRequest.getDeviceId().equals("") ||
+					authRequest.getDeviceId().equals("null")) {
+					
+					LogUtil.v("same device id already exist");
+				} else {
+					LogUtil.v("update device id");
+					userDao.updateDeviceIdById(user.getId(), authRequest.getDeviceId());					
+				}
+				
 				authResponse.setSuccess(true);
 				authResponse.setMessage("authentication complete.");
 				authResponse.setNickname(user.getNickname());
